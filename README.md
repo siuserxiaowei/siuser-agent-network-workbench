@@ -1,6 +1,6 @@
 # Siuser Agent Network Workbench
 
-> Version: `0.2.0`
+> Version: `0.2.1`
 
 一句话：这是一个只跑在你本机的多 Agent 调度台，用来把“素材收集、日报生成、公众号写作、Skill 维护、发布前检查”拆成可派活、可追踪、可复盘的任务流。
 
@@ -68,6 +68,19 @@ npm run init
 工作台配置、脚本和文档仍保留在当前项目目录。
 
 ## 启动本地服务
+
+如果你第一次打开 Dashboard 完全不知道怎么用，先跑这个一键演示。它会启动本地服务、创建一条公众号任务、生成一份 Obsidian 草稿，并向 Dashboard 投递一条可见任务：
+
+```bash
+cd "agent-network-workbench"
+npm run demo:article
+```
+
+跑完后看三个地方：
+
+- Dashboard：`http://127.0.0.1:3000`，看 `Tasks` 里最新的 `delivered` 任务。
+- 任务 JSON：`~/Documents/Obsidian Vault/90_Agent/tasks/`
+- 生成草稿：`~/Documents/Obsidian Vault/03.公众号/_agent_drafts/`
 
 推荐用这个命令。它会在后台同时启动 Hub 和 Dashboard，并在启动后返回终端：
 

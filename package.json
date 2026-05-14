@@ -1,6 +1,6 @@
 {
   "name": "siuser-agent-network-workbench",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "description": "Local-only agent-network workbench for Obsidian daily digests, article pipelines, and Codex skill maintenance.",
   "homepage": "https://siuserxiaowei.github.io/siuser-agent-network-workbench/",
@@ -28,6 +28,7 @@
     "passwd": "npm run -s anet -- passwd",
     "nodes:create": "bash scripts/create-nodes.sh",
     "nodes:harden": "bash scripts/harden-nodes.sh",
+    "demo:article": "bash scripts/demo-article-flow.sh",
     "smoke:send-task": "bash scripts/send-task-smoke.sh",
     "smoke": "bash scripts/smoke-test.sh",
     "site:preview": "python3 -m http.server 4173 -d docs"

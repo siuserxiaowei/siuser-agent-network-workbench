@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1 - 2026-05-15
+
+- Added `npm run demo:article` to run the full first-use article workflow in one command.
+- Updated the README and Pages copy to explain the practical first workflow more clearly.
+
 ## 0.2.0 - 2026-05-14
 
 - Added a plain-language README section explaining what the workbench is for.
