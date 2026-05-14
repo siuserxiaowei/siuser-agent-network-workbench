@@ -10,9 +10,21 @@ if ! command -v jq >/dev/null 2>&1; then
   exit 1
 fi
 
+role_label() {
+  case "$1" in
+    inbox-agent) echo "收件箱 Agent / Inbox Agent" ;;
+    digest-agent) echo "摘要 Agent / Digest Agent" ;;
+    writer-agent) echo "写作 Agent / Writer Agent" ;;
+    review-agent) echo "审校 Agent / Review Agent" ;;
+    skill-agent) echo "Skill 维护 Agent / Skill Agent" ;;
+    qa-agent) echo "验收 Agent / QA Agent" ;;
+    *) echo "$1" ;;
+  esac
+}
+
 from="${1:-inbox-agent}"
 to="${2:-digest-agent}"
-task="${3:-smoke: ${from} asks ${to} to acknowledge local workbench wiring}"
+task="${3:-烟测任务 / Smoke task: $(role_label "$from") 请求 / asks $(role_label "$to") 确认本地工作台投递链路正常 / to acknowledge local workbench wiring.}"
 
 from_config=".anet/nodes/$from/config.json"
 if [ ! -f "$from_config" ]; then
@@ -59,6 +71,7 @@ response="$(curl --noproxy '*' -fsS http://127.0.0.1:9200/mcp \
   -H 'Accept: application/json, text/event-stream' \
   -d "$payload")"
 
+echo "Hub 返回 / Hub response:"
 echo "$response"
 echo
 COMMHUB_TOKEN="$token" npm run -s anet -- tasks || true

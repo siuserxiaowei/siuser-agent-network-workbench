@@ -1,6 +1,6 @@
 # Siuser Agent Network Workbench
 
-> Version: `0.2.1`
+> Version: `0.2.2`
 
 一句话：这是一个只跑在你本机的多 Agent 调度台，用来把“素材收集、日报生成、公众号写作、Skill 维护、发布前检查”拆成可派活、可追踪、可复盘的任务流。
 
@@ -26,6 +26,23 @@ Dashboard 里看到的 `Tasks / Mesh / Messages` 分别对应：
 - `Tasks`：任务有没有派出去、谁处理、状态如何。
 - `Mesh`：本机有哪些 Agent 节点。
 - `Messages`：Agent 之间的任务消息。
+
+## Dashboard 中英文对照
+
+agent-network 自带 Dashboard 的菜单还是英文，但工作台生成的任务内容会尽量使用中英文对照。常见词先这样看：
+
+| 英文 | 中文 | 你应该怎么理解 |
+| --- | --- | --- |
+| `Tasks` | 任务 | 看任务有没有投递出去，以及现在是什么状态 |
+| `Mesh` | 节点网络 | 看本机有哪些 Agent 角色节点 |
+| `Messages` | 消息 | 看 Agent 之间传了什么任务消息 |
+| `queued` | 排队中 | 任务已创建，还没处理 |
+| `running` | 运行中 | 任务正在处理 |
+| `review_needed` | 需要人工审阅 | 产物已经生成，但要你看一眼 |
+| `delivered` | 已投递 | 消息已经送到目标 Agent |
+| `expired` | 已过期 | 任务消息太久没人处理，过期了 |
+| `from` | 来源 Agent | 谁发起了任务 |
+| `to` | 目标 Agent | 任务派给谁 |
 
 真正有用的不是页面炫，而是它把你平时散落在 Codex、Obsidian、GitHub、微信素材里的工作，整理成一条条可交接的本地流水线。
 
@@ -78,7 +95,7 @@ npm run demo:article
 
 跑完后看三个地方：
 
-- Dashboard：`http://127.0.0.1:3000`，看 `Tasks` 里最新的 `delivered` 任务。
+- Dashboard：`http://127.0.0.1:3000`，看 `Tasks / 任务` 里最新的 `delivered / 已投递` 任务。
 - 任务 JSON：`~/Documents/Obsidian Vault/90_Agent/tasks/`
 - 生成草稿：`~/Documents/Obsidian Vault/03.公众号/_agent_drafts/`
 
@@ -138,12 +155,12 @@ npm run dashboard
 
 ## 固定角色
 
-- `inbox-agent`：收集 Obsidian、微信日报、文章素材、GitHub 项目状态。
-- `digest-agent`：生成每日学习卡片、群日报摘要、专题沉淀。
-- `writer-agent`：把素材转公众号、X 长文、小红书草稿。
-- `review-agent`：事实核查、去 AI 味、标题优化、发布前检查。
-- `skill-agent`：维护安全扫描、视觉审美实验室、微信文章读取等 Skill。
-- `qa-agent`：跑本地脚本、README 检查、安全扫描、发布前验收。
+- `inbox-agent`：收件箱 Agent / Inbox Agent。收集 Obsidian、微信日报、文章素材、GitHub 项目状态。
+- `digest-agent`：摘要 Agent / Digest Agent。生成每日学习卡片、群日报摘要、专题沉淀。
+- `writer-agent`：写作 Agent / Writer Agent。把素材转公众号、X 长文、小红书草稿。
+- `review-agent`：审校 Agent / Review Agent。事实核查、去 AI 味、标题优化、发布前检查。
+- `skill-agent`：Skill 维护 Agent / Skill Agent。维护安全扫描、视觉审美实验室、微信文章读取等 Skill。
+- `qa-agent`：验收 Agent / QA Agent。跑本地脚本、README 检查、安全扫描、发布前验收。
 
 角色定义在 `config/roles.json`，流水线定义在 `config/pipelines.json`。
 

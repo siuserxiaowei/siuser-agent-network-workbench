@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.2 - 2026-05-15
+
+- Added Chinese/English labels to task JSON, role output, demo messages, README, and the GitHub Pages guide.
+- Changed the Dashboard-visible smoke task text to bilingual content so `Tasks` is easier to understand.
+- Added a Dashboard glossary for common labels such as `Tasks`, `Mesh`, `Messages`, `queued`, `running`, and `delivered`.
+
 ## 0.2.1 - 2026-05-15
 
 - Added `npm run demo:article` to run the full first-use article workflow in one command.

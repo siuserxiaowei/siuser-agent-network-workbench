@@ -23,6 +23,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PATHS = json.loads((ROOT / "config" / "paths.json").read_text(encoding="utf-8"))
 ROLES = json.loads((ROOT / "config" / "roles.json").read_text(encoding="utf-8"))["roles"]
 PIPELINES = json.loads((ROOT / "config" / "pipelines.json").read_text(encoding="utf-8"))["pipelines"]
+ROLE_BY_ID = {role["id"]: role for role in ROLES}
 ANET_RUNTIME = Path(
     os.environ.get("ANET_RUNTIME", str(Path.home() / "Workspace" / "agent-network-runtime"))
 ).expanduser()
@@ -53,6 +54,13 @@ WECHAT_DAILY_DIR = VAULT / "微信渠道" / "_daily"
 ARTICLE_DRAFTS_DIR = VAULT / "03.公众号" / "_agent_drafts"
 
 ALLOWED_WRITE_ROOTS = [expand_config_path(p, CONFIG_VARS).resolve() for p in PATHS["allowed_write_roots"]]
+STATUS_LABELS = {
+    "queued": {"zh": "排队中", "en": "queued"},
+    "running": {"zh": "运行中", "en": "running"},
+    "review_needed": {"zh": "需要人工审阅", "en": "review needed"},
+    "done": {"zh": "已完成", "en": "done"},
+    "blocked": {"zh": "被阻塞", "en": "blocked"},
+}
 
 
 def now_id() -> str:
@@ -181,10 +189,12 @@ def cmd_init(_: argparse.Namespace) -> None:
 
 def cmd_roles(_: argparse.Namespace) -> None:
     for role in ROLES:
-        print(f"## {role['id']}")
+        print(f"## {role.get('name_zh', role['id'])} / {role.get('name_en', role['id'])}")
+        print(f"- id: {role['id']}")
         print(f"- runtime: {role['runtime']}")
-        print(f"- purpose: {role['purpose']}")
-        print(f"- write_roots: {', '.join(role['write_roots'])}")
+        print(f"- 用途 / Purpose: {role.get('purpose_zh', '')}")
+        print(f"- English: {role['purpose']}")
+        print(f"- 可写目录 / write_roots: {', '.join(role['write_roots'])}")
         print()
 
 
@@ -203,15 +213,30 @@ def cmd_create_task(args: argparse.Namespace) -> None:
     task_id = f"{task_type}_{now_id()}"
     source = str(resolve_source(args.source) or default_source_for(task_type))
     output = str(task_output_path(task_type, task_id))
+    pipeline = PIPELINES[task_type]
+    assigned_roles = pipeline["roles"]
     task = {
         "id": task_id,
         "type": task_type,
+        "type_label": {
+            "zh": pipeline.get("label_zh", task_type),
+            "en": pipeline.get("label_en", task_type),
+        },
         "source": source,
         "output": output,
         "status": "queued",
+        "status_label": STATUS_LABELS["queued"],
         "created_at": now_iso(),
-        "assigned_roles": PIPELINES[task_type]["roles"],
-        "notes": args.notes or "Created by local workbench helper.",
+        "assigned_roles": assigned_roles,
+        "assigned_roles_detail": [
+            {
+                "id": role_id,
+                "name_zh": ROLE_BY_ID.get(role_id, {}).get("name_zh", role_id),
+                "name_en": ROLE_BY_ID.get(role_id, {}).get("name_en", role_id),
+            }
+            for role_id in assigned_roles
+        ],
+        "notes": args.notes or "本地工作台创建的任务 / Created by local workbench helper.",
     }
     task_path = TASKS_DIR / f"{task_id}.json"
     safe_write(task_path, json.dumps(task, ensure_ascii=False, indent=2) + "\n")
@@ -264,18 +289,23 @@ def cmd_pilot(args: argparse.Namespace) -> None:
         raise SystemExit(f"Unknown pilot type: {task_type}")
 
     safe_write(output, content)
-    print(f"Wrote pilot output: {output}")
+    print(f"已写入试点产物 / Wrote pilot output: {output}")
 
 
 def render_header(title: str, task_id: str, task_type: str, source: Path) -> list[str]:
+    pipeline = PIPELINES.get(task_type, {})
     return [
         "---",
         "type: agent-network-pilot-output",
         f"task_id: {task_id}",
         f"task_type: {task_type}",
+        f"task_type_label_zh: {json.dumps(pipeline.get('label_zh', task_type), ensure_ascii=False)}",
+        f"task_type_label_en: {json.dumps(pipeline.get('label_en', task_type), ensure_ascii=False)}",
         f"source: {json.dumps(str(source), ensure_ascii=False)}",
         f"created_at: {now_iso()}",
         "status: review_needed",
+        "status_label_zh: 需要人工审阅",
+        "status_label_en: review needed",
         "---",
         "",
         f"# {title}",
@@ -292,19 +322,19 @@ def render_daily_digest(source: Path, task_id: str) -> str:
     if not candidates:
         candidates = recent_markdown(WORKSPACE / "wechat-obsidian-pipeline", 6)
     lines += [
-        "## 输入概览",
+        "## 输入概览 / Input Overview",
         "",
         f"- 优先扫描源：`{source}`",
         f"- 候选 Markdown 数量：{len(candidates)}",
         "",
-        "## 今日可沉淀内容",
+        "## 今日可沉淀内容 / Things Worth Capturing",
         "",
     ]
     for path in candidates:
         lines.append(f"- {summarize_markdown_file(path)}")
     lines += [
         "",
-        "## 公开前检查",
+        "## 公开前检查 / Public Sharing Review",
         "",
         "- [ ] 不包含原始私聊或完整群聊原文",
         "- [ ] 不包含群成员姓名、手机号、微信号等隐私信息",
@@ -323,24 +353,24 @@ def render_article_pipeline(source: Path, task_id: str) -> str:
         "从资料到公众号：一次 Agent 协作写作试跑",
     ]
     lines += [
-        "## 标题备选",
+        "## 标题备选 / Title Options",
         "",
         *(f"- {item}" for item in title_candidates),
         "",
-        "## 初步审校",
+        "## 初步审校 / First-pass Review",
         "",
         f"- 来源：`{source}`",
         f"- 字符数：{len(text)}",
         "- 建议补强：开头个人动机、事实来源、读者下一步操作。",
         "- 建议删除：空泛判断、未核实数字、过度产品化表述。",
         "",
-        "## 配图建议",
+        "## 配图建议 / Image Prompt Ideas",
         "",
         "- 封面：一个本地工作台调度多个 AI Agent 的可视化场景。",
         "- 中段：资料输入 -> Agent 分工 -> Markdown 输出的流程图。",
         "- 结尾：Obsidian 作为知识库，Agent Network 作为调度台。",
         "",
-        "## 发布清单",
+        "## 发布清单 / Publishing Checklist",
         "",
         "- [ ] 链接可打开",
         "- [ ] 数据有来源",
@@ -360,7 +390,7 @@ def render_skill_maintenance(source: Path, task_id: str) -> str:
         skill_files = [source]
 
     lines += [
-        "## Skill 清单",
+        "## Skill 清单 / Skill Inventory",
         "",
     ]
     for path in skill_files[:20]:
@@ -374,7 +404,7 @@ def render_skill_maintenance(source: Path, task_id: str) -> str:
         code, out = run_capture(["python3", str(scanner), str(source), "--json"], timeout=60)
         lines += [
             "",
-            "## security-scan 只读结果",
+            "## security-scan 只读结果 / Read-only Scan Result",
             "",
             f"- exit_code: {code}",
             "",
@@ -384,7 +414,7 @@ def render_skill_maintenance(source: Path, task_id: str) -> str:
         ]
     lines += [
         "",
-        "## 发布前检查",
+        "## 发布前检查 / Pre-release Checklist",
         "",
         "- [ ] SKILL.md frontmatter 有 name 和 description",
         "- [ ] description 覆盖触发场景",

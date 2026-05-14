@@ -270,6 +270,39 @@
       gap: 18px;
     }
 
+    .glossary {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .term {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 16px;
+      align-items: start;
+      padding: 15px 16px;
+      border: 1px solid var(--line);
+      background: rgba(255, 250, 240, 0.78);
+    }
+
+    .term code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-weight: 800;
+      color: var(--blue);
+    }
+
+    .term strong {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 17px;
+    }
+
+    .term span {
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
     .card {
       min-height: 240px;
       padding: 22px;
@@ -351,7 +384,8 @@
       .hero,
       .grid,
       .commands,
-      .rules {
+      .rules,
+      .glossary {
         grid-template-columns: 1fr;
       }
 
@@ -367,13 +401,17 @@
       .status {
         grid-column: 2;
       }
+
+      .term {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
   <header class="wrap nav">
     <div class="mark">Siuser Agent Network Workbench</div>
-    <div>v0.2.1 · local-first</div>
+    <div>v0.2.2 · local-first</div>
   </header>
 
   <main>
@@ -393,31 +431,46 @@
       <div class="console" aria-label="Workbench pipeline preview">
         <div class="console-head">
           <div class="lights"><span></span><span></span><span></span></div>
-          <div>127.0.0.1 · Tasks / Mesh / Messages</div>
+          <div>127.0.0.1 · Tasks 任务 / Mesh 节点 / Messages 消息</div>
         </div>
         <div class="console-body">
           <div class="pipeline">
             <div class="node">
               <div class="badge">01</div>
-              <div><strong>Inbox Agent</strong><span>收集 Obsidian、微信日报、文章素材、GitHub 项目状态</span></div>
-              <div class="status">queued</div>
+              <div><strong>收件箱 Agent / Inbox Agent</strong><span>收集 Obsidian、微信日报、文章素材、GitHub 项目状态</span></div>
+              <div class="status">排队中 / queued</div>
             </div>
             <div class="node">
               <div class="badge">02</div>
-              <div><strong>Writer / Digest Agent</strong><span>生成日报摘要、公众号结构、标题、配图提示词</span></div>
-              <div class="status">running</div>
+              <div><strong>写作/摘要 Agent / Writer/Digest Agent</strong><span>生成日报摘要、公众号结构、标题、配图提示词</span></div>
+              <div class="status">运行中 / running</div>
             </div>
             <div class="node">
               <div class="badge">03</div>
-              <div><strong>Review Agent</strong><span>事实核查、隐私脱敏、去 AI 味、发布前检查</span></div>
-              <div class="status">review</div>
+              <div><strong>审校 Agent / Review Agent</strong><span>事实核查、隐私脱敏、去 AI 味、发布前检查</span></div>
+              <div class="status">审阅 / review</div>
             </div>
             <div class="node">
               <div class="badge">04</div>
-              <div><strong>QA Agent</strong><span>跑脚本、查 README、写验收报告，只产出本地草稿</span></div>
-              <div class="status">done</div>
+              <div><strong>验收 Agent / QA Agent</strong><span>跑脚本、查 README、写验收报告，只产出本地草稿</span></div>
+              <div class="status">完成 / done</div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <h2>Dashboard 中英文对照</h2>
+        <p class="sub">上游 Dashboard 菜单本身还是英文，但工作台生成的任务、角色和演示消息都已经改成中英文对照。先按这张表看。</p>
+        <div class="glossary">
+          <div class="term"><code>Tasks</code><div><strong>任务</strong><span>看任务有没有投递出去，以及现在是什么状态。</span></div></div>
+          <div class="term"><code>Mesh</code><div><strong>节点网络</strong><span>看本机有哪些 Agent 角色节点。</span></div></div>
+          <div class="term"><code>Messages</code><div><strong>消息</strong><span>看 Agent 之间传了什么任务消息。</span></div></div>
+          <div class="term"><code>queued</code><div><strong>排队中</strong><span>任务已创建，还没处理。</span></div></div>
+          <div class="term"><code>delivered</code><div><strong>已投递</strong><span>消息已经送到目标 Agent。</span></div></div>
+          <div class="term"><code>expired</code><div><strong>已过期</strong><span>任务消息太久没人处理，已经过期。</span></div></div>
         </div>
       </div>
     </section>

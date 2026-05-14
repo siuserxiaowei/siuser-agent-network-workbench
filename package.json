@@ -1,6 +1,6 @@
 {
   "name": "siuser-agent-network-workbench",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": true,
   "description": "Local-only agent-network workbench for Obsidian daily digests, article pipelines, and Codex skill maintenance.",
   "homepage": "https://siuserxiaowei.github.io/siuser-agent-network-workbench/",
