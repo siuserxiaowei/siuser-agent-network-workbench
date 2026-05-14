@@ -1,0 +1,52 @@
+{
+  "roles": [
+    {
+      "id": "inbox-agent",
+      "runtime": "codex-sdk",
+      "purpose": "Collect new local inputs from Obsidian, WeChat daily outputs, article drafts, and GitHub project state.",
+      "read_roots": ["obsidian_vault", "workspace_root"],
+      "write_roots": ["90_Agent/inbox", "90_Agent/tasks"],
+      "never": ["delete files", "publish", "push", "modify core notes"]
+    },
+    {
+      "id": "digest-agent",
+      "runtime": "codex-sdk",
+      "purpose": "Generate daily learning cards, group digest summaries, and topic notes from collected inputs.",
+      "read_roots": ["90_Agent/inbox", "微信渠道", "wechat_obsidian_pipeline", "daily_card_public"],
+      "write_roots": ["90_Agent/outputs", "微信渠道/_daily"],
+      "never": ["expose raw private chat", "write public output without review"]
+    },
+    {
+      "id": "writer-agent",
+      "runtime": "codex-sdk",
+      "purpose": "Turn source material into WeChat article drafts, X long posts, Xiaohongshu notes, and image prompts.",
+      "read_roots": ["wechat_articles", "03.公众号", "90_Agent/outputs"],
+      "write_roots": ["90_Agent/drafts", "03.公众号"],
+      "never": ["invent facts", "publish automatically"]
+    },
+    {
+      "id": "review-agent",
+      "runtime": "codex-sdk",
+      "purpose": "Check facts, remove AI-sounding phrasing, improve titles, and run privacy/publication review.",
+      "read_roots": ["90_Agent/drafts", "wechat_articles", "03.公众号"],
+      "write_roots": ["90_Agent/reviews"],
+      "never": ["silently rewrite final copy", "approve sensitive content without notes"]
+    },
+    {
+      "id": "skill-agent",
+      "runtime": "codex-sdk",
+      "purpose": "Maintain local and published Codex skills: SKILL.md quality, scripts, examples, README positioning.",
+      "read_roots": ["local_skills", "security_scan_skill", "visual_taste_lab"],
+      "write_roots": ["90_Agent/skill-reports"],
+      "never": ["edit skills without explicit follow-up authorization"]
+    },
+    {
+      "id": "qa-agent",
+      "runtime": "codex-sdk",
+      "purpose": "Run local checks, README validation, security scans, output existence checks, and release readiness reports.",
+      "read_roots": ["workspace_root", "90_Agent"],
+      "write_roots": ["90_Agent/qa"],
+      "never": ["push to GitHub", "delete artifacts", "run destructive cleanup"]
+    }
+  ]
+}
