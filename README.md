@@ -1,5 +1,18 @@
 # Siuser Agent Network Workbench
 
+<!-- SIUSER-SEO-INTRO:START -->
+
+## 项目介绍 / Project Introduction
+
+**中文介绍**：Agent 网络工作台实验，探索多 Agent 协作、知识组织、任务编排和个人 AI 工作流。
+
+**English**: An agent-network workbench for experimenting with multi-agent collaboration, knowledge organization, task orchestration, and personal AI workflows.
+
+**SEO 关键词 / SEO Keywords**: AI agents, multi-agent, agent workflow, knowledge system, 任务编排
+
+<!-- SIUSER-SEO-INTRO:END -->
+
+
 > Version: `0.2.2`
 
 一句话：这是一个只跑在你本机的多 Agent 调度台，用来把“素材收集、日报生成、公众号写作、Skill 维护、发布前检查”拆成可派活、可追踪、可复盘的任务流。
@@ -200,3 +213,17 @@ npm run smoke:send-task
 - 公众号草稿/检查：`~/Documents/Obsidian Vault/03.公众号/_agent_drafts/`
 - Skill 检查：`~/Documents/Obsidian Vault/90_Agent/skill-reports/`
 - QA 报告：`~/Documents/Obsidian Vault/90_Agent/qa/`
+
+<!-- SIUSER-CONTACT:START -->
+
+## 联系我 / Contact
+
+想交流 AI 工具、内容自动化、SEO、私域增长或项目合作，可以扫码加我微信。
+
+For collaboration on AI tools, content automation, SEO, private-domain growth, or product experiments, scan the WeChat QR code below.
+
+<img src="https://raw.githubusercontent.com/siuserxiaowei/siuserxiaowei/main/assets/contact/wechat-qrcode.jpg" width="180" alt="WeChat QR code / 微信二维码" />
+
+**关键词 / Keywords**: AI agents, multi-agent, agent workflow, knowledge system, AI tools, AI automation, GitHub Pages, SEO
+
+<!-- SIUSER-CONTACT:END -->
