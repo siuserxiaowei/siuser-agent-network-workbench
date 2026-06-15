@@ -1,5 +1,68 @@
 # Siuser Agent Network Workbench
 
+<!-- SIUSER-REPO-GUIDE:START -->
+## Repository Guide
+
+### What This Repository Does
+
+Agent 网络工作台：实验多 Agent 协作、知识系统和自动化工作流。
+
+English summary: Agent network workbench for experimenting with multi-agent collaboration, knowledge systems, and automation workflows.
+
+### Online Entry Points
+
+- GitHub repository: https://github.com/siuserxiaowei/siuser-agent-network-workbench
+- Live / GitHub Pages: https://siuserxiaowei.github.io/siuser-agent-network-workbench/
+- Default branch: `main`
+- Primary language: `Python`
+
+### How To Read / Learn This Repository
+
+1. 先读本 README，确认项目目标、在线入口和本地运行方式。
+2. 打开上方 Live / GitHub Pages 链接，先从最终效果理解项目。
+3. 查看 `package.json` 的 scripts，确认开发、构建和预览命令。
+4. 如果要修改内容，先小范围改动，再运行本 README 中的验证命令。
+
+### Clone This Repository
+
+```bash
+git clone https://github.com/siuserxiaowei/siuser-agent-network-workbench.git
+cd siuser-agent-network-workbench
+```
+
+### Run Or View Locally
+
+```bash
+npm install
+```
+
+### Repository Map
+
+| Path | Purpose |
+| --- | --- |
+| `README.md` | 项目入口说明，先读这里。 |
+| `package.json` | Node/前端项目配置和常用脚本。 |
+| `docs/` | 文档或 GitHub Pages 输出目录。 |
+| `scripts/` | 构建、同步、生成或维护脚本。 |
+| `CHANGELOG.md` | 项目文件。 |
+| `SECURITY.md` | 项目文件。 |
+| `config/` | 项目目录。 |
+| `package-lock.json` | 项目文件。 |
+
+### Maintenance Notes
+
+- Keep this README in sync when the project purpose, live link, or run commands change.
+- Prefer small, focused commits when changing code, data, or generated pages.
+- Run the relevant build or validation command before publishing changes.
+- If this is a generated/static archive, update the source data first, then regenerate the public files.
+
+### Privacy And Safety
+
+- Do not commit API keys, tokens, passwords, cookies, private URLs, or internal account data.
+- Keep private source material out of public GitHub Pages output unless it has been explicitly cleared for publication.
+- When in doubt, run a quick secret scan such as `rg -n "token|secret|password|access_key|authorization"` before pushing.
+<!-- SIUSER-REPO-GUIDE:END -->
+
 <!-- SIUSER-SEO-INTRO:START -->
 
 ## 项目介绍 / Project Introduction
@@ -11,7 +74,6 @@
 **SEO 关键词 / SEO Keywords**: AI agents, multi-agent, agent workflow, knowledge system, 任务编排
 
 <!-- SIUSER-SEO-INTRO:END -->
-
 
 > Version: `0.2.2`
 
